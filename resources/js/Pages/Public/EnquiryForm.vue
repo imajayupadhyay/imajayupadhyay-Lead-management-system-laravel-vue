@@ -69,18 +69,19 @@
                         </div>
                         
                         <!-- Age -->
-                        <div class="lg:col-span-3">
-                            <label class="form-label-navy">Age</label>
-                            <div class="border border-gray-400 px-4 py-3 w-20 bg-white inline-block">
-                                <input
-                                    v-model="form.age"
-                                    type="number"
-                                    min="15"
-                                    max="50"
-                                    class="w-full border-none outline-none text-center bg-transparent"
-                                />
-                            </div>
-                        </div>
+                     <div class="lg:col-span-3">
+    <label class="form-label-navy">Age: <span class="text-red-500">*</span></label>
+    <input
+        v-model="form.age"
+        type="number"
+        min="15"
+        max="50"
+        class="form-input-navy w-full text-center"
+        placeholder="Enter age"
+        required
+    />
+    <div v-if="errors.age" class="text-red-500 text-sm mt-1">{{ errors.age }}</div>
+</div>
                     </div>
                 </div>
 
@@ -154,17 +155,21 @@
                 <!-- Section 5: Academic Info -->
                 <div class="form-section">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
-                        <div>
-                            <span class="form-label-navy inline-block">Qualification:</span>
-                            <input
-                                v-model="form.qualification"
-                                type="text"
-                                class="form-input-navy flex-1 ml-4"
-                                style="width: calc(100% - 8rem);"
-                                required
-                            />
-                            <div v-if="errors.qualification" class="text-red-500 text-sm mt-1">{{ errors.qualification }}</div>
-                        </div>
+                         <div>
+    <span class="form-label-navy inline-block">Qualification:</span>
+    <select
+        v-model="form.qualification"
+        class="form-input-navy flex-1 ml-4"
+        style="width: calc(100% - 8rem);"
+        required
+    >
+        <option value="">Select Qualification</option>
+        <option value="12th">12th Pass</option>
+        <option value="Graduation">Graduation</option>
+        <option value="Masters">Masters</option>
+    </select>
+    <div v-if="errors.qualification" class="text-red-500 text-sm mt-1">{{ errors.qualification }}</div>
+</div>
                         
                         <div>
                             <span class="form-label-navy inline-block">College:</span>
