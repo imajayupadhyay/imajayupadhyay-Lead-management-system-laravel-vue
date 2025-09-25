@@ -1,19 +1,17 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Public Enquiry Form Routes (No Authentication Required)
+Route::get('/', [PublicController::class, 'index'])->name('enquiry.form');
+Route::post('/enquiry', [PublicController::class, 'store'])->name('enquiry.store');
+Route::get('/thank-you', [PublicController::class, 'success'])->name('enquiry.success');
 
+// Authenticated Routes
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
