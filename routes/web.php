@@ -50,9 +50,9 @@ Route::middleware('auth')->group(function () {
 });
 
 // Custom login redirection
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-    ->middleware('guest')
-    ->name('login.store');
+// Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+//     ->middleware('guest')
+//     ->name('login.store');
 
 // Authentication Routes
 require __DIR__.'/auth.php';
