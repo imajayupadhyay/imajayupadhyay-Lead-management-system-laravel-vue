@@ -50,7 +50,7 @@ class Lead extends Model
     // Relationships
     public function counselor()
     {
-        return $this->belongsTo(Counselor::class);
+        return $this->belongsTo(User::class, 'counselor_id');
     }
 
     public function faculty()
@@ -62,4 +62,5 @@ class Lead extends Model
     {
         return $this->belongsTo(Marketer::class);
     }
+ 
 }

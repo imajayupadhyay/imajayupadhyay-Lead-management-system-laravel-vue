@@ -29,11 +29,51 @@ export default {
                     900: '#0f172a',
                 },
             },
+            animation: {
+                'fade-in-down': 'fadeInDown 0.8s ease-out',
+                'fade-in-up': 'fadeInUp 0.8s ease-out 0.2s both',
+                'shake': 'shake 0.5s ease-in-out',
+                'pulse-slow': 'pulse 3s infinite',
+                'bounce-slow': 'bounce 2s infinite',
+            },
+            keyframes: {
+                fadeInDown: {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateY(-30px)',
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateY(0)',
+                    },
+                },
+                fadeInUp: {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateY(30px)',
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateY(0)',
+                    },
+                },
+                shake: {
+                    '0%, 100%': { transform: 'translateX(0)' },
+                    '25%': { transform: 'translateX(-5px)' },
+                    '75%': { transform: 'translateX(5px)' },
+                },
+            },
+            backdropBlur: {
+                xs: '2px',
+            },
+            boxShadow: {
+                'inner-light': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.1)',
+                'glow': '0 0 20px rgba(59, 130, 246, 0.3)',
+                'glow-navy': '0 0 20px rgba(71, 85, 105, 0.3)',
+            },
             backgroundImage: {
-                'navy-gradient': 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-                'navy-gradient-light': 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
-                'navy-gradient-header': 'linear-gradient(90deg, #1e293b 0%, #334155 100%)',
-                'navy-gradient-card': 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
             },
         },
     },
