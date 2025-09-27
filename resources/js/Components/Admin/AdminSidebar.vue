@@ -2,7 +2,7 @@
   <div class="admin-sidebar">
     <!-- Desktop Sidebar -->
     <div class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:z-50">
-      <div class="flex flex-col flex-grow bg-gradient-to-b from-navy-900 to-navy-800 shadow-xl">
+      <div class="flex flex-col flex-grow bg-gradient-to-b from-navy-900 to-navy-800 shadow-xl w-64">
         <!-- Logo Section -->
         <div class="flex items-center justify-center h-20 px-6 bg-gradient-to-r from-navy-900 to-blue-800 shadow-lg">
           <div class="flex items-center space-x-3">
@@ -52,6 +52,18 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             <span>Marketers</span>
+          </a>
+
+          <!-- Counselors -->
+          <a 
+            href="/admin/counselors" 
+            class="sidebar-item"
+            :class="{ 'active': isActiveRoute('/admin/counselors') }"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+            </svg>
+            <span>Counselors</span>
           </a>
         </nav>
 
@@ -136,6 +148,17 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             <span>Marketers</span>
+          </a>
+
+          <a 
+            href="/admin/counselors" 
+            class="sidebar-item-mobile"
+            @click="closeMobileMenu"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+            </svg>
+            <span>Counselors</span>
           </a>
         </nav>
       </div>
