@@ -30,74 +30,16 @@
             <span>Dashboard</span>
           </a>
 
-          <!-- Leads Management -->
-          <div class="sidebar-section">
-            <div class="sidebar-section-title">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span>Leads</span>
-            </div>
-            <div class="sidebar-subsection">
-              <a href="/admin/leads" class="sidebar-subitem">
-                All Leads
-              </a>
-              <a href="/admin/leads/new" class="sidebar-subitem">
-                New Leads
-              </a>
-              <a href="/admin/leads/in-progress" class="sidebar-subitem">
-                In Progress
-              </a>
-              <a href="/admin/leads/converted" class="sidebar-subitem">
-                Converted
-              </a>
-            </div>
-          </div>
-
-          <!-- Counselors Management -->
+          <!-- Users -->
           <a 
-            href="/admin/counselors" 
+            href="/admin/users" 
             class="sidebar-item"
-            :class="{ 'active': isActiveRoute('/admin/counselors') }"
+            :class="{ 'active': isActiveRoute('/admin/users') }"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
             </svg>
-            <span>Counselors</span>
-          </a>
-
-          <!-- Reports & Analytics -->
-          <div class="sidebar-section">
-            <div class="sidebar-section-title">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              <span>Reports</span>
-            </div>
-            <div class="sidebar-subsection">
-              <a href="/admin/reports/overview" class="sidebar-subitem">
-                Overview
-              </a>
-              <a href="/admin/reports/performance" class="sidebar-subitem">
-                Performance
-              </a>
-              <a href="/admin/reports/conversion" class="sidebar-subitem">
-                Conversion Rate
-              </a>
-            </div>
-          </div>
-
-          <!-- Settings -->
-          <a 
-            href="/admin/settings" 
-            class="sidebar-item"
-            :class="{ 'active': isActiveRoute('/admin/settings') }"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span>Settings</span>
+            <span>Users</span>
           </a>
         </nav>
 
@@ -137,7 +79,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <span class="text-lg font-bold text-white">LeadPro</span>
+            <span class="text-lg font-bold text-white">NuclearEdge</span>
           </div>
           <button 
             @click="closeMobileMenu"
@@ -149,9 +91,8 @@
           </button>
         </div>
 
-        <!-- Mobile Navigation - Same as desktop but condensed -->
+        <!-- Mobile Navigation -->
         <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          <!-- Same navigation items as desktop -->
           <a 
             href="/admin/dashboard" 
             class="sidebar-item-mobile"
@@ -162,7 +103,17 @@
             </svg>
             <span>Dashboard</span>
           </a>
-          <!-- Add other menu items in mobile format -->
+
+          <a 
+            href="/admin/users" 
+            class="sidebar-item-mobile"
+            @click="closeMobileMenu"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+            </svg>
+            <span>Users</span>
+          </a>
         </nav>
       </div>
     </div>
@@ -173,7 +124,6 @@
 import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
-// Props
 const props = defineProps({
   isMobileMenuOpen: {
     type: Boolean,
@@ -181,13 +131,10 @@ const props = defineProps({
   }
 })
 
-// Emits
 const emit = defineEmits(['closeMobileMenu'])
 
-// Composables
 const page = usePage()
 
-// Computed
 const userName = computed(() => {
   return page.props.auth?.user?.name || 'Admin User'
 })
@@ -201,15 +148,13 @@ const isActiveRoute = (routePath) => {
   return window.location.pathname === routePath
 }
 
-// Methods
 const closeMobileMenu = () => {
   emit('closeMobileMenu')
 }
 </script>
 
-
 <style scoped>
-/* Custom Navy Colors */
+/* Keep your existing styles unchanged */
 .bg-navy-900 { background-color: #0f172a; }
 .bg-navy-800 { background-color: #1e293b; }
 .bg-navy-700 { background-color: #334155; }
@@ -250,46 +195,6 @@ const closeMobileMenu = () => {
   margin-right: 0.75rem;
   flex-shrink: 0;
   transition: colors 0.2s;
-}
-
-/* Section Titles */
-.sidebar-section-title {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #93c5fd;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.sidebar-section-title svg {
-  margin-right: 0.5rem;
-}
-
-/* Subsections */
-.sidebar-subsection {
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.sidebar-subitem {
-  display: block;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: #bfdbfe;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
-  text-decoration: none;
-}
-
-.sidebar-subitem:hover {
-  background-color: #334155;
-  color: white;
-  padding-left: 1.5rem;
 }
 
 /* Mobile Styles */
