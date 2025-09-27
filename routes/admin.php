@@ -22,6 +22,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Admin Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
-   
+    // User Management Routes
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [AdminUserController::class, 'index'])->name('index');
+        Route::get('/create', [AdminUserController::class, 'create'])->name('create');
+        Route::post('/', [AdminUserController::class, 'store'])->name('store');
+        Route::get('/{user}', [AdminUserController::class, 'show'])->name('show');
+        Route::get('/{user}/edit', [AdminUserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [AdminUserController::class, 'update'])->name('update');
+        Route::delete('/{user}', [AdminUserController::class, 'destroy'])->name('destroy');
+        Route::patch('/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('toggle-status');
+        Route::post('/bulk-action', [AdminUserController::class, 'bulkAction'])->name('bulk-action');
+    });
     
 });

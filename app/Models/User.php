@@ -18,11 +18,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'role',
         'is_active',
-        'phone',
-        'permissions',
     ];
 
     /**
@@ -46,15 +45,55 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
-            'permissions' => 'array',
         ];
     }
 
     /**
-     * Get leads assigned to this counselor.
+     * Relationships
      */
     public function assignedLeads()
     {
         return $this->hasMany(Lead::class, 'counselor_id');
+    }
+
+    /**
+     * Scopes
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    public function scopeCounselors($query)
+    {
+        return $query->where('role', 'counselor');
+    }
+
+    public function scopeByRole($query, $role)
+    {
+        return $query->where('role', $role);
+    }
+
+    /**
+     * Helper methods
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCounselor()
+    {
+        return $this->role === 'counselor';
+    }
+
+    public function isActive()
+    {
+        return $this->is_active;
     }
 }
