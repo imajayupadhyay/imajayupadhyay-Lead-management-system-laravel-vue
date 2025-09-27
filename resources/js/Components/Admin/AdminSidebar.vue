@@ -41,6 +41,18 @@
             </svg>
             <span>Users</span>
           </a>
+
+          <!-- Marketers -->
+          <a 
+            href="/admin/marketers" 
+            class="sidebar-item"
+            :class="{ 'active': isActiveRoute('/admin/marketers') }"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span>Marketers</span>
+          </a>
         </nav>
 
         <!-- User Profile Section -->
@@ -114,6 +126,17 @@
             </svg>
             <span>Users</span>
           </a>
+
+          <a 
+            href="/admin/marketers" 
+            class="sidebar-item-mobile"
+            @click="closeMobileMenu"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span>Marketers</span>
+          </a>
         </nav>
       </div>
     </div>
@@ -145,7 +168,7 @@ const userInitials = computed(() => {
 })
 
 const isActiveRoute = (routePath) => {
-  return window.location.pathname === routePath
+  return window.location.pathname === routePath || window.location.pathname.startsWith(routePath)
 }
 
 const closeMobileMenu = () => {
@@ -208,6 +231,11 @@ const closeMobileMenu = () => {
   border-radius: 0.5rem;
   transition: all 0.2s;
   text-decoration: none;
+}
+
+.sidebar-item-mobile:hover {
+  background-color: #334155;
+  color: white;
 }
 
 .sidebar-item-mobile svg {

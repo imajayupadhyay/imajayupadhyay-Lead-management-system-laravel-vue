@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\CounselorController as AdminCounselorController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\MarketerController as AdminMarketerController;
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -35,4 +35,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/bulk-action', [AdminUserController::class, 'bulkAction'])->name('bulk-action');
     });
     
+      // Marketer Management Routes
+    Route::prefix('marketers')->name('marketers.')->group(function () {
+        Route::get('/', [AdminMarketerController::class, 'index'])->name('index');
+        Route::post('/', [AdminMarketerController::class, 'store'])->name('store');
+        Route::get('/{marketer}', [AdminMarketerController::class, 'show'])->name('show');
+        Route::put('/{marketer}', [AdminMarketerController::class, 'update'])->name('update');
+        Route::delete('/{marketer}', [AdminMarketerController::class, 'destroy'])->name('destroy');
+        Route::patch('/{marketer}/toggle-status', [AdminMarketerController::class, 'toggleStatus'])->name('toggle-status');
+        Route::post('/bulk-action', [AdminMarketerController::class, 'bulkAction'])->name('bulk-action');
+    });
 });

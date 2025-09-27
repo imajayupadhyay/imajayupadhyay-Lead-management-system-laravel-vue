@@ -9,33 +9,51 @@ class Marketer extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'email',
         'phone',
         'designation',
-        'is_active'
+        'is_active',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'is_active' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
-    // Relationships
+    /**
+     * Get the leads associated with this marketer.
+     */
     public function leads()
     {
-        return $this->hasMany(Lead::class);
+        return $this->hasMany(Lead::class, 'marketer_id');
     }
 
-    // Scopes
+    /**
+     * Scope to get only active marketers.
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    // Accessor for display name with designation
-    public function getDisplayNameAttribute()
+    /**
+     * Scope to get only inactive marketers.
+     */
+    public function scopeInactive($query)
     {
-        return $this->designation ? "{$this->name} ({$this->designation})" : $this->name;
+        return $query->where('is_active', false);
     }
 }
