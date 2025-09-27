@@ -57,4 +57,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::patch('/{counselor}/toggle-status', [AdminCounselorController::class, 'toggleStatus'])->name('toggle-status');
         Route::post('/bulk-action', [AdminCounselorController::class, 'bulkAction'])->name('bulk-action');
     });
+
+
+     // Lead Management Routes
+    Route::prefix('leads')->name('leads.')->group(function () {
+        Route::get('/', [AdminLeadController::class, 'index'])->name('index');
+        Route::post('/', [AdminLeadController::class, 'store'])->name('store');
+        Route::get('/{lead}', [AdminLeadController::class, 'show'])->name('show');
+        Route::put('/{lead}', [AdminLeadController::class, 'update'])->name('update');
+        Route::delete('/{lead}', [AdminLeadController::class, 'destroy'])->name('destroy');
+        Route::post('/bulk-action', [AdminLeadController::class, 'bulkAction'])->name('bulk-action');
+    });
+    
 });
