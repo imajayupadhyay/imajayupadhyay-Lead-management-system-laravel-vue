@@ -155,13 +155,16 @@
               <!-- Qualification -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Qualification *</label>
-                <input
+                <select
                   v-model="form.qualification"
-                  type="text"
                   required
-                  placeholder="Enter qualification"
                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
-                />
+                >
+                  <option value="">Select Qualification</option>
+                  <option value="12th">12th Pass</option>
+                  <option value="Graduation">Graduation</option>
+                  <option value="Masters">Masters</option>
+                </select>
                 <span v-if="form.errors.qualification" class="text-red-500 text-xs mt-1">{{ form.errors.qualification }}</span>
               </div>
 
@@ -235,15 +238,17 @@
               <!-- Course Language -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Course Language</label>
-                <select
-                  v-model="form.course_language"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
-                >
-                  <option value="">Select Language</option>
-                  <option value="Bilingual">Bilingual</option>
-                  <option value="English">English</option>
-                  <option value="Hindi">Hindi</option>
-                </select>
+                <div class="grid grid-cols-3 gap-2">
+                  <label v-for="language in languageOptions" :key="language" class="flex items-center">
+                    <input
+                      type="checkbox"
+                      :value="language"
+                      v-model="form.course_languages"
+                      class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    />
+                    <span class="ml-2 text-sm text-gray-700">{{ language }}</span>
+                  </label>
+                </div>
               </div>
 
               <!-- Course Type Details -->
@@ -300,6 +305,94 @@
                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
                 />
               </div>
+
+              <!-- Enquiry By -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Enquiry By</label>
+                <input
+                  v-model="form.enquiry_by"
+                  type="text"
+                  placeholder="Enter enquiry source"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                />
+              </div>
+
+              <!-- Marketer -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Marketer</label>
+                <select
+                  v-model="form.marketer_id"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                >
+                  <option value="">Select Marketer</option>
+                  <option v-for="marketer in marketers" :key="marketer.id" :value="marketer.id">
+                    {{ marketer.name }}{{ marketer.designation ? ` (${marketer.designation})` : '' }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Counselor -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Counselor</label>
+                <select
+                  v-model="form.counselor_id"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                >
+                  <option value="">Select Counselor</option>
+                  <option v-for="counselor in counselors" :key="counselor.id" :value="counselor.id">
+                    {{ counselor.name }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Faculty -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Faculty</label>
+                <select
+                  v-model="form.faculty_id"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                >
+                  <option value="">Select Faculty</option>
+                  <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id">
+                    {{ faculty.name }} {{ faculty.subject ? `(${faculty.subject})` : '' }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Visited Class and Demo Attended -->
+              <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                  <input
+                    v-model="form.visited_class"
+                    type="checkbox"
+                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                  />
+                  <label class="text-sm font-medium text-gray-700">Visited Class</label>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input
+                    v-model="form.demo_attended"
+                    type="checkbox"
+                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                  />
+                  <label class="text-sm font-medium text-gray-700">Demo Attended</label>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                <select
+                  v-model="form.status"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                >
+                  <option value="New">New</option>
+                  <option value="Contacted">Contacted</option>
+                  <option value="Interested">Interested</option>
+                  <option value="Not Interested">Not Interested</option>
+                  <option value="Enrolled">Enrolled</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -342,6 +435,18 @@ const props = defineProps({
   lead: {
     type: Object,
     default: null
+  },
+  counselors: {
+    type: Array,
+    default: () => []
+  },
+  marketers: {
+    type: Array,
+    default: () => []
+  },
+  faculties: {
+    type: Array,
+    default: () => []
   }
 })
 
@@ -349,14 +454,17 @@ const emit = defineEmits(['close', 'leadUpdated'])
 
 // Course options (same as public form)
 const courseOptions = ref([
-  'UPSC CSE',
-  'State PSC',
-  'Banking',
-  'SSC',
-  'Railway',
-  'Teaching',
-  'Defence',
-  'Other'
+  'GS Foundation',
+  '1-Year',
+  '2-Year',
+  '3-Year'
+])
+
+// Language options (same as public form)
+const languageOptions = ref([
+  'Bilingual',
+  'English',
+  'Hindi'
 ])
 
 // Form setup (matching public enquiry form fields exactly)
@@ -376,12 +484,19 @@ const form = useForm({
   parent_friend_specify: '',
   parent_occupation: '',
   interested_in: [],
-  course_language: '',
+  course_languages: [],
   course_type_details: '',
   gs_module: '',
   optional_subject: '',
   other_query: '',
-  target_year: ''
+  target_year: '',
+  enquiry_by: '',
+  marketer_id: null,
+  counselor_id: null,
+  faculty_id: null,
+  visited_class: false,
+  demo_attended: false,
+  status: 'New'
 })
 
 // Watch for lead changes and populate form
@@ -408,12 +523,19 @@ watch(() => props.lead, (newLead) => {
     form.parent_friend_specify = newLead.parent_friend_specify || ''
     form.parent_occupation = newLead.parent_occupation || ''
     form.interested_in = Array.isArray(newLead.interested_in) ? newLead.interested_in : []
-    form.course_language = newLead.course_language || ''
+    form.course_languages = newLead.course_language ? newLead.course_language.split(',') : []
     form.course_type_details = newLead.course_type_details || ''
     form.gs_module = newLead.gs_module || ''
     form.optional_subject = newLead.optional_subject || ''
     form.other_query = newLead.other_query || ''
     form.target_year = newLead.target_year || ''
+    form.enquiry_by = newLead.enquiry_by || ''
+    form.marketer_id = newLead.marketer_id || null
+    form.counselor_id = newLead.counselor_id || null
+    form.faculty_id = newLead.faculty_id || null
+    form.visited_class = Boolean(newLead.visited_class)
+    form.demo_attended = Boolean(newLead.demo_attended)
+    form.status = newLead.status || 'New'
   }
 }, { immediate: true })
 
@@ -438,7 +560,21 @@ const closeModal = () => {
 const submit = () => {
   if (!props.lead) return
 
-  form.put(route('admin.leads.update', props.lead.id), {
+  // Prepare data for submission (same as public form)
+  const submitData = {
+    ...form.data(),
+    course_language: form.course_languages.join(','), // Convert array to comma-separated string
+    visited_class: form.visited_class ? 1 : 0,
+    demo_attended: form.demo_attended ? 1 : 0,
+    marketer_id: form.marketer_id || null,
+    counselor_id: form.counselor_id || null,
+    faculty_id: form.faculty_id || null
+  }
+
+  // Remove the course_languages field as we're sending course_language instead
+  delete submitData.course_languages
+
+  form.transform(() => submitData).put(route('admin.leads.update', props.lead.id), {
     onSuccess: () => {
       emit('leadUpdated')
       closeModal()

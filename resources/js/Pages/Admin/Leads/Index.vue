@@ -505,7 +505,9 @@
     <!-- Create Lead Modal -->
     <CreateLeadModal
       :show="showCreateModal"
-      :filterOptions="filterOptions"
+      :counselors="filterOptions.counselors"
+      :marketers="filterOptions.marketers"
+      :faculties="filterOptions.faculty"
       @close="closeCreateModal"
       @leadCreated="handleLeadCreated"
     />
@@ -514,7 +516,9 @@
     <EditLeadModal
       :show="showEditModal"
       :lead="selectedLead"
-      :filterOptions="filterOptions"
+      :counselors="filterOptions.counselors"
+      :marketers="filterOptions.marketers"
+      :faculties="filterOptions.faculty"
       @close="closeEditModal"
       @leadUpdated="handleLeadUpdated"
     />
