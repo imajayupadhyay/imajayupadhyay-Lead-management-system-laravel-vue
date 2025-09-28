@@ -30,6 +30,17 @@
 
         <!-- Right Section -->
         <div class="flex items-center space-x-4">
+          <!-- Mobile Logout Button -->
+          <button
+            @click="logout"
+            class="sm:hidden p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+            title="Logout"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
+
           <!-- Search Bar -->
           <div class="hidden md:flex relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -74,7 +85,7 @@
           <!-- Notifications -->
           <div class="relative">
             <button
-              @click="toggleNotifications"
+              @click.stop="toggleNotifications"
               class="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 relative"
             >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,7 +154,7 @@
           <!-- User Profile Dropdown -->
           <div class="relative">
             <button
-              @click="toggleProfileMenu"
+              @click.stop="toggleProfileMenu"
               class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-md">
@@ -293,6 +304,7 @@ const clearSearch = () => {
 const toggleNotifications = () => {
   showNotifications.value = !showNotifications.value
   showProfileMenu.value = false
+  console.log('Notifications toggled:', showNotifications.value)
 }
 
 const closeNotifications = () => {
@@ -302,6 +314,7 @@ const closeNotifications = () => {
 const toggleProfileMenu = () => {
   showProfileMenu.value = !showProfileMenu.value
   showNotifications.value = false
+  console.log('Profile menu toggled:', showProfileMenu.value)
 }
 
 const closeProfileMenu = () => {
@@ -340,14 +353,21 @@ const logout = () => {
 const vClickOutside = {
   mounted(el, binding) {
     el.clickOutsideEvent = function(event) {
+      // Check if the click is outside the element
       if (!(el === event.target || el.contains(event.target))) {
+        console.log('Click outside detected')
         binding.value()
       }
     }
-    document.addEventListener('click', el.clickOutsideEvent)
+    // Add event listener with a slight delay to avoid immediate closure
+    setTimeout(() => {
+      document.addEventListener('click', el.clickOutsideEvent)
+    }, 0)
   },
   unmounted(el) {
-    document.removeEventListener('click', el.clickOutsideEvent)
+    if (el.clickOutsideEvent) {
+      document.removeEventListener('click', el.clickOutsideEvent)
+    }
   }
 }
 </script>
