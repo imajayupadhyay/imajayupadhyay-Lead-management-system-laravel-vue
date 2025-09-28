@@ -160,18 +160,18 @@
                 </div>
               </div>
 
-              <!-- Status Filter -->
+              <!-- Course Filter -->
               <div>
-                <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                <label for="course" class="block text-sm font-medium text-gray-700 mb-2">Course</label>
                 <select
-                  id="status"
-                  v-model="statusFilter"
+                  id="course"
+                  v-model="courseFilter"
                   class="form-input"
                   @change="applyFilters"
                 >
-                  <option value="">All Status</option>
-                  <option v-for="status in filterOptions.statuses" :key="status" :value="status">
-                    {{ status }}
+                  <option value="">All Courses</option>
+                  <option v-for="course in filterOptions.courses" :key="course" :value="course">
+                    {{ course }}
                   </option>
                 </select>
               </div>
@@ -193,23 +193,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <!-- State Filter -->
-              <div>
-                <label for="state" class="block text-sm font-medium text-gray-700 mb-2">State</label>
-                <select
-                  id="state"
-                  v-model="stateFilter"
-                  class="form-input"
-                  @change="applyFilters"
-                >
-                  <option value="">All States</option>
-                  <option v-for="state in filterOptions.states" :key="state" :value="state">
-                    {{ state }}
-                  </option>
-                </select>
-              </div>
-
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <!-- Counselor Filter -->
               <div>
                 <label for="counselor" class="block text-sm font-medium text-gray-700 mb-2">Counselor</label>
@@ -244,14 +228,29 @@
 
               <!-- Date Range -->
               <div>
-                <label for="date_from" class="block text-sm font-medium text-gray-700 mb-2">Date From</label>
-                <input
-                  id="date_from"
-                  v-model="dateFromFilter"
-                  type="date"
-                  class="form-input"
-                  @change="applyFilters"
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <input
+                      id="date_from"
+                      v-model="dateFromFilter"
+                      type="date"
+                      placeholder="From"
+                      class="form-input text-sm"
+                      @change="applyFilters"
+                    >
+                  </div>
+                  <div>
+                    <input
+                      id="date_to"
+                      v-model="dateToFilter"
+                      type="date"
+                      placeholder="To"
+                      class="form-input text-sm"
+                      @change="applyFilters"
+                    >
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -284,9 +283,11 @@
                       class="form-input text-sm py-1 px-2 border-blue-300"
                     >
                       <option value="">Update Status</option>
-                      <option v-for="status in filterOptions.statuses" :key="status" :value="status">
-                        {{ status }}
-                      </option>
+                      <option value="New">New</option>
+                      <option value="Contacted">Contacted</option>
+                      <option value="Interested">Interested</option>
+                      <option value="Not Interested">Not Interested</option>
+                      <option value="Enrolled">Enrolled</option>
                     </select>
                     <button
                       @click="bulkAction('update_status')"
@@ -591,12 +592,12 @@ const props = defineProps({
 
 // State
 const searchQuery = ref(props.filters.search || '')
-const statusFilter = ref(props.filters.status || '')
+const courseFilter = ref(props.filters.course || '')
 const qualificationFilter = ref(props.filters.qualification || '')
-const stateFilter = ref(props.filters.state || '')
 const counselorFilter = ref(props.filters.counselor_id || '')
 const marketerFilter = ref(props.filters.marketer_id || '')
 const dateFromFilter = ref(props.filters.date_from || '')
+const dateToFilter = ref(props.filters.date_to || '')
 const selectedLeads = ref([])
 const bulkStatus = ref('')
 const isMobileMenuOpen = ref(false)
@@ -614,8 +615,8 @@ let searchTimeout = null
 
 // Computed
 const hasActiveFilters = computed(() => {
-  return searchQuery.value || statusFilter.value || qualificationFilter.value || 
-         stateFilter.value || counselorFilter.value || marketerFilter.value || dateFromFilter.value
+  return searchQuery.value || courseFilter.value || qualificationFilter.value ||
+         counselorFilter.value || marketerFilter.value || dateFromFilter.value || dateToFilter.value
 })
 
 // Methods
@@ -636,14 +637,14 @@ const debounceSearch = () => {
 
 const applyFilters = () => {
   const params = {}
-  
+
   if (searchQuery.value) params.search = searchQuery.value
-  if (statusFilter.value) params.status = statusFilter.value
+  if (courseFilter.value) params.course = courseFilter.value
   if (qualificationFilter.value) params.qualification = qualificationFilter.value
-  if (stateFilter.value) params.state = stateFilter.value
   if (counselorFilter.value) params.counselor_id = counselorFilter.value
   if (marketerFilter.value) params.marketer_id = marketerFilter.value
   if (dateFromFilter.value) params.date_from = dateFromFilter.value
+  if (dateToFilter.value) params.date_to = dateToFilter.value
 
   router.get(route('admin.leads.index'), params, {
     preserveState: true,
@@ -653,12 +654,12 @@ const applyFilters = () => {
 
 const clearFilters = () => {
   searchQuery.value = ''
-  statusFilter.value = ''
+  courseFilter.value = ''
   qualificationFilter.value = ''
-  stateFilter.value = ''
   counselorFilter.value = ''
   marketerFilter.value = ''
   dateFromFilter.value = ''
+  dateToFilter.value = ''
   router.get(route('admin.leads.index'), {}, {
     preserveState: true,
     replace: true,
