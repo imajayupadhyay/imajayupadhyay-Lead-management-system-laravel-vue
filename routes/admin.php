@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\CounselorController as AdminCounselorController;
+use App\Http\Controllers\Admin\FacultyController as AdminFacultyController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MarketerController as AdminMarketerController;
@@ -56,6 +57,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/{counselor}', [AdminCounselorController::class, 'destroy'])->name('destroy');
         Route::patch('/{counselor}/toggle-status', [AdminCounselorController::class, 'toggleStatus'])->name('toggle-status');
         Route::post('/bulk-action', [AdminCounselorController::class, 'bulkAction'])->name('bulk-action');
+    });
+
+     // Faculty Management Routes
+    Route::prefix('faculty')->name('faculty.')->group(function () {
+        Route::get('/', [AdminFacultyController::class, 'index'])->name('index');
+        Route::post('/', [AdminFacultyController::class, 'store'])->name('store');
+        Route::get('/{faculty}', [AdminFacultyController::class, 'show'])->name('show');
+        Route::put('/{faculty}', [AdminFacultyController::class, 'update'])->name('update');
+        Route::delete('/{faculty}', [AdminFacultyController::class, 'destroy'])->name('destroy');
+        Route::patch('/{faculty}/toggle-status', [AdminFacultyController::class, 'toggleStatus'])->name('toggle-status');
+        Route::post('/bulk-action', [AdminFacultyController::class, 'bulkAction'])->name('bulk-action');
     });
 
 
