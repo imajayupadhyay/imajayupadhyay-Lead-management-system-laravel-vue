@@ -50,7 +50,7 @@ class Lead extends Model
     // Relationships
     public function counselor()
     {
-        return $this->belongsTo(User::class, 'counselor_id');
+        return $this->belongsTo(Counselor::class, 'counselor_id');
     }
 
     public function faculty()
