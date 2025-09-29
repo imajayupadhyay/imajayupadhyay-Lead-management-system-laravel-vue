@@ -59,13 +59,12 @@
               <!-- Email -->
               <div>
                 <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
-                  Email Address <span class="text-red-500">*</span>
+                  Email Address
                 </label>
                 <input
                   id="email"
                   v-model="form.email"
                   type="email"
-                  required
                   class="form-input"
                   :class="{ 'border-red-300': form.errors.email }"
                   placeholder="Enter email address"

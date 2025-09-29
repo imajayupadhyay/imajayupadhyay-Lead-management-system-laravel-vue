@@ -25,13 +25,12 @@
                 <!-- Section 1: Date -->
                 <div class="form-section">
                     <div class="w-full md:w-80">
-                        <label class="form-label-navy">Date: <span class="text-red-500">*</span></label>
+                        <label class="form-label-navy">Date:</label>
                         <div class="relative">
                             <input
                                 v-model="form.date"
                                 type="date"
                                 class="form-input-navy w-full"
-                                required
                             />
                             <div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
                                 <span class="text-gray-400">____/____/_______</span>
@@ -70,7 +69,7 @@
                         
                         <!-- Age -->
                      <div class="lg:col-span-3">
-    <label class="form-label-navy">Age: <span class="text-red-500">*</span></label>
+    <label class="form-label-navy">Age:</label>
     <input
         v-model="form.age"
         type="number"
@@ -78,7 +77,6 @@
         max="50"
         class="form-input-navy w-full text-center"
         placeholder="Enter age"
-        required
     />
     <div v-if="errors.age" class="text-red-500 text-sm mt-1">{{ errors.age }}</div>
 </div>
@@ -114,12 +112,11 @@
                 <!-- Section 4: Address -->
                 <div class="form-section space-y-4">
                     <div>
-                        <label class="form-label-navy">Address: <span class="text-red-500">*</span></label>
+                        <label class="form-label-navy">Address:</label>
                         <textarea
                             v-model="form.address"
                             rows="2"
                             class="form-input-navy w-full resize-none"
-                            required
                         ></textarea>
                         <div v-if="errors.address" class="text-red-500 text-sm mt-1">{{ errors.address }}</div>
                     </div>
@@ -133,7 +130,6 @@
                                 maxlength="6"
                                 class="form-input-navy flex-1 ml-4"
                                 style="width: calc(100% - 5rem);"
-                                required
                             />
                             <div v-if="errors.pin_code" class="text-red-500 text-sm mt-1">{{ errors.pin_code }}</div>
                         </div>
@@ -145,7 +141,6 @@
                                 type="text"
                                 class="form-input-navy flex-1 ml-4"
                                 style="width: calc(100% - 5rem);"
-                                required
                             />
                             <div v-if="errors.state" class="text-red-500 text-sm mt-1">{{ errors.state }}</div>
                         </div>
@@ -161,7 +156,6 @@
         v-model="form.qualification"
         class="form-input-navy flex-1 ml-4"
         style="width: calc(100% - 8rem);"
-        required
     >
         <option value="">Select Qualification</option>
         <option value="12th">12th Pass</option>

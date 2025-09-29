@@ -62,7 +62,7 @@ class MarketerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:marketers'],
+            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:marketers'],
             'phone' => ['nullable', 'string', 'max:255'],
             'designation' => ['nullable', 'string', 'max:255'],
             'is_active' => ['boolean'],
@@ -101,7 +101,7 @@ class MarketerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('marketers')->ignore($marketer->id)],
+            'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('marketers')->ignore($marketer->id)],
             'phone' => ['nullable', 'string', 'max:255'],
             'designation' => ['nullable', 'string', 'max:255'],
             'is_active' => ['boolean'],
