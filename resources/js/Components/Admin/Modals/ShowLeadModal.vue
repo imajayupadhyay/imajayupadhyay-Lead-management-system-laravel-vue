@@ -203,7 +203,7 @@
               </div>
             </div>
 
-            <div v-if="lead?.optional_subject || lead?.other_query" class="mt-4">
+            <div v-if="lead?.optional_subject || lead?.other_query || lead?.feedback" class="mt-4">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div v-if="lead?.optional_subject">
                   <dt class="text-sm font-semibold text-gray-700 mb-2">Optional Subject</dt>
@@ -218,6 +218,13 @@
                     {{ lead.other_query }}
                   </dd>
                 </div>
+              </div>
+
+              <div v-if="lead?.feedback" class="mt-4">
+                <dt class="text-sm font-semibold text-gray-700 mb-2">Feedback</dt>
+                <dd class="form-input bg-white shadow-sm border-2">
+                  {{ lead.feedback }}
+                </dd>
               </div>
             </div>
           </div>

@@ -123,18 +123,6 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
                         <div>
-                            <span class="form-label-navy inline-block w-16">Pin:</span>
-                            <input
-                                v-model="form.pin_code"
-                                type="text"
-                                maxlength="6"
-                                class="form-input-navy flex-1 ml-4"
-                                style="width: calc(100% - 5rem);"
-                            />
-                            <div v-if="errors.pin_code" class="text-red-500 text-sm mt-1">{{ errors.pin_code }}</div>
-                        </div>
-                        
-                        <div>
                             <span class="form-label-navy inline-block w-16">State:</span>
                             <input
                                 v-model="form.state"
@@ -144,40 +132,25 @@
                             />
                             <div v-if="errors.state" class="text-red-500 text-sm mt-1">{{ errors.state }}</div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Section 5: Academic Info -->
-                <div class="form-section">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
-                         <div>
-    <span class="form-label-navy inline-block">Qualification:</span>
-    <select
-        v-model="form.qualification"
-        class="form-input-navy flex-1 ml-4"
-        style="width: calc(100% - 8rem);"
-    >
-        <option value="">Select Qualification</option>
-        <option value="12th">12th Pass</option>
-        <option value="Graduation">Graduation</option>
-        <option value="Masters">Masters</option>
-    </select>
-    <div v-if="errors.qualification" class="text-red-500 text-sm mt-1">{{ errors.qualification }}</div>
-</div>
-                        
                         <div>
-                            <span class="form-label-navy inline-block">College:</span>
-                            <input
-                                v-model="form.college"
-                                type="text"
+                            <span class="form-label-navy inline-block">Qualification:</span>
+                            <select
+                                v-model="form.qualification"
                                 class="form-input-navy flex-1 ml-4"
-                                style="width: calc(100% - 6rem);"
-                            />
+                                style="width: calc(100% - 8rem);"
+                            >
+                                <option value="">Select Qualification</option>
+                                <option value="12th">12th Pass</option>
+                                <option value="Graduation">Graduation</option>
+                                <option value="Masters">Masters</option>
+                            </select>
+                            <div v-if="errors.qualification" class="text-red-500 text-sm mt-1">{{ errors.qualification }}</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 6: Visit Info -->
+                <!-- Section 5: Visit Info -->
                 <div class="form-section space-y-4">
                     <div class="flex flex-wrap items-center gap-4">
                         <span class="form-label-navy">Visited with:</span>
@@ -398,6 +371,20 @@
                     </div>
                 </div>
 
+                <!-- Section 7: Feedback -->
+                <div class="form-section">
+                    <div>
+                        <label class="form-label-navy">Feedback:</label>
+                        <textarea
+                            v-model="form.feedback"
+                            rows="4"
+                            class="form-input-navy w-full resize-none"
+                            placeholder="Please share your feedback or any additional comments"
+                        ></textarea>
+                        <div v-if="errors.feedback" class="text-red-500 text-sm mt-1">{{ errors.feedback }}</div>
+                    </div>
+                </div>
+
                 <!-- Section 8: Office Use Only -->
                 <div class="form-section border-2 border-dashed border-gray-400 rounded-lg p-6 bg-gray-50">
                     <div class="text-center mb-4">
@@ -516,10 +503,8 @@ const form = reactive({
     mobile_number: '',
     email: '',
     address: '',
-    pin_code: '',
     state: '',
     qualification: '',
-    college: '',
     visited_with: 'Self',
     parent_friend_specify: '',
     parent_occupation: '',
@@ -530,6 +515,7 @@ const form = reactive({
     optional_subject: '',
     other_query: '',
     target_year: '',
+    feedback: '',
     enquiry_by: '',
     marketer_id: '',
     counselor_id: '',

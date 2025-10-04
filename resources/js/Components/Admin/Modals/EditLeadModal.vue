@@ -295,6 +295,17 @@
                 ></textarea>
               </div>
 
+              <!-- Feedback -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Feedback</label>
+                <textarea
+                  v-model="form.feedback"
+                  rows="3"
+                  placeholder="Enter feedback"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                ></textarea>
+              </div>
+
               <!-- Target Year -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Target Year</label>
@@ -490,6 +501,7 @@ const form = useForm({
   optional_subject: '',
   other_query: '',
   target_year: '',
+  feedback: '',
   enquiry_by: '',
   marketer_id: null,
   counselor_id: null,
@@ -499,45 +511,53 @@ const form = useForm({
   status: 'New'
 })
 
-// Watch for lead changes and populate form
-watch(() => props.lead, (newLead) => {
-  if (newLead && props.show) {
-    const formatDate = (dateString) => {
-      if (!dateString) return ''
-      const date = new Date(dateString)
-      return date.toISOString().split('T')[0]
-    }
+// Helper function to populate form
+const populateForm = () => {
+  if (!props.lead) return
 
-    form.date = formatDate(newLead.date)
-    form.student_name = newLead.student_name || ''
-    form.gender = newLead.gender || ''
-    form.age = newLead.age
-    form.mobile_number = newLead.mobile_number || ''
-    form.email = newLead.email || ''
-    form.address = newLead.address || ''
-    form.pin_code = newLead.pin_code || ''
-    form.state = newLead.state || ''
-    form.qualification = newLead.qualification || ''
-    form.college = newLead.college || ''
-    form.visited_with = newLead.visited_with || ''
-    form.parent_friend_specify = newLead.parent_friend_specify || ''
-    form.parent_occupation = newLead.parent_occupation || ''
-    form.interested_in = Array.isArray(newLead.interested_in) ? newLead.interested_in : []
-    form.course_languages = newLead.course_language ? newLead.course_language.split(',') : []
-    form.course_type_details = newLead.course_type_details || ''
-    form.gs_module = newLead.gs_module || ''
-    form.optional_subject = newLead.optional_subject || ''
-    form.other_query = newLead.other_query || ''
-    form.target_year = newLead.target_year || ''
-    form.enquiry_by = newLead.enquiry_by || ''
-    form.marketer_id = newLead.marketer_id || null
-    form.counselor_id = newLead.counselor_id || null
-    form.faculty_id = newLead.faculty_id || null
-    form.visited_class = Boolean(newLead.visited_class)
-    form.demo_attended = Boolean(newLead.demo_attended)
-    form.status = newLead.status || 'New'
+  const formatDate = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toISOString().split('T')[0]
   }
-}, { immediate: true })
+
+  form.date = formatDate(props.lead.date)
+  form.student_name = props.lead.student_name || ''
+  form.gender = props.lead.gender || ''
+  form.age = props.lead.age
+  form.mobile_number = props.lead.mobile_number || ''
+  form.email = props.lead.email || ''
+  form.address = props.lead.address || ''
+  form.pin_code = props.lead.pin_code || ''
+  form.state = props.lead.state || ''
+  form.qualification = props.lead.qualification || ''
+  form.college = props.lead.college || ''
+  form.visited_with = props.lead.visited_with || ''
+  form.parent_friend_specify = props.lead.parent_friend_specify || ''
+  form.parent_occupation = props.lead.parent_occupation || ''
+  form.interested_in = Array.isArray(props.lead.interested_in) ? props.lead.interested_in : []
+  form.course_languages = props.lead.course_language ? props.lead.course_language.split(',') : []
+  form.course_type_details = props.lead.course_type_details || ''
+  form.gs_module = props.lead.gs_module || ''
+  form.optional_subject = props.lead.optional_subject || ''
+  form.other_query = props.lead.other_query || ''
+  form.target_year = props.lead.target_year || ''
+  form.feedback = props.lead.feedback || ''
+  form.enquiry_by = props.lead.enquiry_by || ''
+  form.marketer_id = props.lead.marketer_id || null
+  form.counselor_id = props.lead.counselor_id || null
+  form.faculty_id = props.lead.faculty_id || null
+  form.visited_class = Boolean(props.lead.visited_class)
+  form.demo_attended = Boolean(props.lead.demo_attended)
+  form.status = props.lead.status || 'New'
+}
+
+// Watch for when modal opens and populate form
+watch(() => props.show, (newValue) => {
+  if (newValue && props.lead) {
+    populateForm()
+  }
+})
 
 // Watch for modal close
 watch(() => props.show, (newValue) => {

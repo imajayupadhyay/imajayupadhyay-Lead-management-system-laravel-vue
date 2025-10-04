@@ -296,6 +296,17 @@
                 ></textarea>
               </div>
 
+              <!-- Feedback -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Feedback</label>
+                <textarea
+                  v-model="form.feedback"
+                  rows="3"
+                  placeholder="Enter feedback"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                ></textarea>
+              </div>
+
               <!-- Target Year -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Target Year</label>
@@ -487,6 +498,7 @@ const form = useForm({
   optional_subject: '',
   other_query: '',
   target_year: '',
+  feedback: '',
   enquiry_by: '',
   marketer_id: null,
   counselor_id: null,

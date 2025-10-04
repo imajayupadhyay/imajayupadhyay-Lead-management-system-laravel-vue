@@ -31,6 +31,7 @@ class Lead extends Model
         'optional_subject',
         'other_query',
         'target_year',
+        'feedback',
         'enquiry_by',
         'marketer_id',
         'counselor_id',
