@@ -1,0 +1,199 @@
+<template>
+  <div class="counselor-sidebar">
+    <!-- Desktop Sidebar -->
+    <div class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:z-50">
+      <div class="flex flex-col flex-grow bg-gradient-to-b from-navy-900 to-navy-800 shadow-xl w-64">
+        <!-- Logo Section -->
+        <div class="flex items-center justify-center h-20 px-6 bg-gradient-to-r from-navy-900 to-blue-800 shadow-lg">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-white tracking-wide">NuclearEdge</span>
+          </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+          <!-- Dashboard -->
+          <a
+            href="/counselor/dashboard"
+            class="sidebar-item"
+            :class="{ 'active': isActiveRoute('/counselor/dashboard') }"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z" />
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </nav>
+
+        <!-- User Profile Section -->
+        <div class="p-4 border-t border-navy-700">
+          <div class="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-navy-800 to-navy-700 hover:from-navy-700 hover:to-navy-600 transition-all duration-200 cursor-pointer group">
+            <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-sm font-semibold text-white">{{ userInitials }}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-white truncate">{{ userName }}</p>
+              <p class="text-xs text-blue-200">Counselor</p>
+            </div>
+            <svg class="w-4 h-4 text-blue-200 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div v-if="isMobileMenuOpen" class="lg:hidden fixed inset-0 z-50">
+      <!-- Overlay -->
+      <div
+        class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        @click="closeMobileMenu"
+      ></div>
+
+      <!-- Mobile Sidebar -->
+      <div class="relative flex flex-col w-full max-w-xs bg-gradient-to-b from-navy-900 to-navy-800 shadow-xl">
+        <!-- Mobile Header -->
+        <div class="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-navy-900 to-blue-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <span class="text-lg font-bold text-white">NuclearEdge</span>
+          </div>
+          <button
+            @click="closeMobileMenu"
+            class="p-2 rounded-md text-white hover:bg-navy-700 transition-colors"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          <a
+            href="/counselor/dashboard"
+            class="sidebar-item-mobile"
+            @click="closeMobileMenu"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
+
+const props = defineProps({
+  isMobileMenuOpen: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const emit = defineEmits(['closeMobileMenu'])
+
+const page = usePage()
+
+const userName = computed(() => {
+  return page.props.auth?.user?.name || 'Counselor User'
+})
+
+const userInitials = computed(() => {
+  const name = userName.value
+  return name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2)
+})
+
+const isActiveRoute = (routePath) => {
+  return window.location.pathname === routePath || window.location.pathname.startsWith(routePath)
+}
+
+const closeMobileMenu = () => {
+  emit('closeMobileMenu')
+}
+</script>
+
+<style scoped>
+/* Keep your existing styles unchanged */
+.bg-navy-900 { background-color: #0f172a; }
+.bg-navy-800 { background-color: #1e293b; }
+.bg-navy-700 { background-color: #334155; }
+.border-navy-700 { border-color: #334155; }
+.from-navy-900 { --tw-gradient-from: #0f172a; }
+.from-navy-800 { --tw-gradient-from: #1e293b; }
+.from-navy-700 { --tw-gradient-from: #334155; }
+.to-navy-800 { --tw-gradient-to: #1e293b; }
+.to-navy-700 { --tw-gradient-to: #334155; }
+.to-navy-600 { --tw-gradient-to: #475569; }
+.hover\:bg-navy-700:hover { background-color: #334155; }
+
+/* Sidebar Items */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #dbeafe;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.sidebar-item:hover {
+  background-color: #334155;
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-item.active {
+  background: linear-gradient(to right, #2563eb, #3b82f6);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-item svg {
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  transition: colors 0.2s;
+}
+
+/* Mobile Styles */
+.sidebar-item-mobile {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #dbeafe;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.sidebar-item-mobile:hover {
+  background-color: #334155;
+  color: white;
+}
+
+.sidebar-item-mobile svg {
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+</style>
