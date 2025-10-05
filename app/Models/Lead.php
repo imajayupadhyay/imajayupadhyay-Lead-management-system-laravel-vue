@@ -54,6 +54,31 @@ class Lead extends Model
         'next_follow_up_date' => 'date',
     ];
 
+    protected static function booted()
+    {
+        // Create notification when counselor is assigned or changed
+        static::updated(function ($lead) {
+            if ($lead->wasChanged('counselor_id') && $lead->counselor_id) {
+                \App\Models\Notification::createLeadAssigned(
+                    $lead->counselor_id,
+                    $lead->id,
+                    $lead->student_name
+                );
+            }
+        });
+
+        // Also create notification when lead is created with a counselor
+        static::created(function ($lead) {
+            if ($lead->counselor_id) {
+                \App\Models\Notification::createLeadAssigned(
+                    $lead->counselor_id,
+                    $lead->id,
+                    $lead->student_name
+                );
+            }
+        });
+    }
+
     // Relationships
     public function counselor()
     {

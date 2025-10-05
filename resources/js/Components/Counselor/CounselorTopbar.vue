@@ -144,7 +144,7 @@
                         {{ formatTime(notification.created_at) }}
                       </p>
                     </div>
-                    <div v-if="!notification.read" class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div v-if="!notification.read_at" class="w-2 h-2 bg-blue-500 rounded-full"></div>
                   </div>
                 </div>
               </div>
@@ -223,8 +223,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
+import axios from 'axios'
 
 // Emits
 const emit = defineEmits(['toggleMobileMenu'])
@@ -236,22 +237,8 @@ const page = usePage()
 const searchQuery = ref('')
 const showNotifications = ref(false)
 const showProfileMenu = ref(false)
-const notifications = ref([
-  {
-    id: 1,
-    title: 'New Lead Assigned',
-    message: 'John Doe has been assigned to you',
-    created_at: new Date(),
-    read: false
-  },
-  {
-    id: 2,
-    title: 'Follow-up Reminder',
-    message: 'Follow up with Sarah Johnson',
-    created_at: new Date(Date.now() - 3600000),
-    read: false
-  }
-])
+const notifications = ref([])
+const unreadCount = ref(0)
 
 // Computed properties
 const userName = computed(() => {
@@ -282,10 +269,20 @@ const currentPageSubtitle = computed(() => {
 })
 
 const notificationCount = computed(() => {
-  return notifications.value.filter(n => !n.read).length
+  return unreadCount.value
 })
 
 // Methods
+const fetchNotifications = async () => {
+  try {
+    const response = await axios.get('/counselor/notifications')
+    notifications.value = response.data.notifications
+    unreadCount.value = response.data.unread_count
+  } catch (error) {
+    console.error('Error fetching notifications:', error)
+  }
+}
+
 const toggleMobileMenu = () => {
   emit('toggleMobileMenu')
 }
@@ -319,15 +316,48 @@ const closeProfileMenu = () => {
   showProfileMenu.value = false
 }
 
-const markAllAsRead = () => {
-  notifications.value.forEach(notification => {
-    notification.read = true
-  })
+const markAllAsRead = async () => {
+  try {
+    await axios.post('/counselor/notifications/mark-all-as-read')
+    notifications.value.forEach(notification => {
+      notification.read_at = new Date()
+    })
+    unreadCount.value = 0
+  } catch (error) {
+    console.error('Error marking all as read:', error)
+  }
 }
 
-const handleNotificationClick = (notification) => {
-  notification.read = true
-  closeNotifications()
+const handleNotificationClick = async (notification) => {
+  try {
+    if (!notification.read_at) {
+      await axios.post(`/counselor/notifications/${notification.id}/mark-as-read`)
+      notification.read_at = new Date()
+      unreadCount.value = Math.max(0, unreadCount.value - 1)
+    }
+
+    closeNotifications()
+
+    // Navigate to the relevant page based on notification type
+    if (notification.type === 'lead_assigned') {
+      // For lead assigned, go to leads page
+      // Redirect to leads list page (show page will be available when you click on a lead)
+      window.location.href = '/counselor/leads'
+    } else if (notification.type === 'follow_up_today') {
+      // For today's follow-ups
+      window.location.href = '/counselor/follow-ups?filter=today'
+    } else if (notification.type === 'follow_up_overdue') {
+      // For overdue follow-ups
+      window.location.href = '/counselor/follow-ups?filter=overdue'
+    } else {
+      // Default: go to dashboard
+      window.location.href = '/counselor/dashboard'
+    }
+  } catch (error) {
+    console.error('Error handling notification click:', error)
+    // Even on error, close the dropdown
+    closeNotifications()
+  }
 }
 
 const formatTime = (date) => {
@@ -346,6 +376,13 @@ const formatTime = (date) => {
 const logout = () => {
   router.post('/logout')
 }
+
+// Lifecycle hooks
+onMounted(() => {
+  fetchNotifications()
+  // Refresh notifications every 30 seconds
+  setInterval(fetchNotifications, 30000)
+})
 
 // Custom directive for click outside
 const vClickOutside = {

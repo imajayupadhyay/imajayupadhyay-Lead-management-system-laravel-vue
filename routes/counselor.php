@@ -4,6 +4,7 @@ use App\Http\Controllers\Counselor\DashboardController as CounselorDashboardCont
 use App\Http\Controllers\Counselor\LeadController as CounselorLeadController;
 use App\Http\Controllers\Counselor\FollowUpController as CounselorFollowUpController;
 use App\Http\Controllers\Counselor\ProfileController as CounselorProfileController;
+use App\Http\Controllers\Counselor\NotificationController as CounselorNotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +46,15 @@ Route::middleware(['auth:counselor', 'counselor'])->prefix('counselor')->name('c
         Route::put('/{followUp}', [CounselorFollowUpController::class, 'update'])->name('update');
         Route::delete('/{followUp}', [CounselorFollowUpController::class, 'destroy'])->name('destroy');
     });
-    
+
+    // Notification Routes
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', [CounselorNotificationController::class, 'index'])->name('index');
+        Route::post('/{notification}/mark-as-read', [CounselorNotificationController::class, 'markAsRead'])->name('mark-as-read');
+        Route::post('/mark-all-as-read', [CounselorNotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
+        Route::delete('/{notification}', [CounselorNotificationController::class, 'destroy'])->name('destroy');
+    });
+
     // Personal Stats Routes (Future implementation)
     Route::prefix('stats')->name('stats.')->group(function () {
         Route::get('/', function () {
