@@ -1,4 +1,5 @@
 <template>
+  <Head title="Login - Lead Management System" />
   <div class="min-h-screen bg-gradient-to-br from-navy-900 via-navy-800 to-blue-900 flex items-center justify-center px-4 sm:px-6 lg:px-8">
     <!-- Background Animation Elements -->
     <div class="absolute inset-0 overflow-hidden">

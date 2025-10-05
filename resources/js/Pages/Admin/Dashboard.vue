@@ -1,9 +1,10 @@
 <template>
+  <Head title="Dashboard - Admin" />
   <div class="min-h-screen bg-gray-50">
     <!-- Admin Sidebar -->
-    <AdminSidebar 
-      :isMobileMenuOpen="isMobileMenuOpen" 
-      @closeMobileMenu="closeMobileMenu" 
+    <AdminSidebar
+      :isMobileMenuOpen="isMobileMenuOpen"
+      @closeMobileMenu="closeMobileMenu"
     />
     
     <!-- Main Content Area -->
@@ -224,7 +225,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import AdminSidebar from '../../Components/Admin/AdminSidebar.vue'
 import AdminTopbar from '../../Components/Admin/AdminTopbar.vue'
 import { Chart, registerables } from 'chart.js'

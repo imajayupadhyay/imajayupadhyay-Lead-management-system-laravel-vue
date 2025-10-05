@@ -1,4 +1,5 @@
 <template>
+  <Head title="Follow-ups - Counselor" />
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
     <!-- Include Sidebar and Topbar -->
     <CounselorSidebar :isMobileMenuOpen="isMobileMenuOpen" @closeMobileMenu="closeMobileMenu" />
@@ -457,7 +458,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { router, Head } from '@inertiajs/vue3'
 import CounselorSidebar from '@/Components/Counselor/CounselorSidebar.vue'
 import CounselorTopbar from '@/Components/Counselor/CounselorTopbar.vue'
 
