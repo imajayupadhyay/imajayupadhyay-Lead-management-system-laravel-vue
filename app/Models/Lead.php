@@ -38,7 +38,11 @@ class Lead extends Model
         'visited_class',
         'demo_attended',
         'faculty_id',
-        'status'
+        'status',
+        'lead_category',
+        'last_follow_up_date',
+        'next_follow_up_date',
+        'follow_up_count',
     ];
 
     protected $casts = [
@@ -46,6 +50,8 @@ class Lead extends Model
         'interested_in' => 'array',
         'visited_class' => 'boolean',
         'demo_attended' => 'boolean',
+        'last_follow_up_date' => 'date',
+        'next_follow_up_date' => 'date',
     ];
 
     // Relationships
@@ -63,5 +69,82 @@ class Lead extends Model
     {
         return $this->belongsTo(Marketer::class);
     }
- 
+
+    public function followUps()
+    {
+        return $this->hasMany(FollowUp::class);
+    }
+
+    public function latestFollowUp()
+    {
+        return $this->hasOne(FollowUp::class)->latestOfMany('follow_up_date');
+    }
+
+    public function nextFollowUp()
+    {
+        return $this->hasOne(FollowUp::class)
+                    ->where('status', 'Pending')
+                    ->where('follow_up_date', '>=', now())
+                    ->orderBy('follow_up_date', 'asc');
+    }
+
+    // Scopes
+    public function scopeForCounselor($query, $counselorId)
+    {
+        return $query->where('counselor_id', $counselorId);
+    }
+
+    public function scopeHot($query)
+    {
+        return $query->where('lead_category', 'Hot');
+    }
+
+    public function scopeWarm($query)
+    {
+        return $query->where('lead_category', 'Warm');
+    }
+
+    public function scopeCold($query)
+    {
+        return $query->where('lead_category', 'Cold');
+    }
+
+    // Helper methods
+    public function updateLeadCategory()
+    {
+        if (!$this->last_follow_up_date) {
+            $daysSinceCreation = $this->created_at->diffInDays(now());
+
+            if ($daysSinceCreation <= 7) {
+                $this->lead_category = 'Hot';
+            } elseif ($daysSinceCreation <= 20) {
+                $this->lead_category = 'Warm';
+            } else {
+                $this->lead_category = 'Cold';
+            }
+        } else {
+            $daysSinceLastFollowUp = $this->last_follow_up_date->diffInDays(now());
+
+            if ($daysSinceLastFollowUp <= 7) {
+                $this->lead_category = 'Hot';
+            } elseif ($daysSinceLastFollowUp <= 20) {
+                $this->lead_category = 'Warm';
+            } else {
+                $this->lead_category = 'Cold';
+            }
+        }
+
+        $this->save();
+    }
+
+    public function getCategoryColorAttribute()
+    {
+        return match($this->lead_category) {
+            'Hot' => 'red',
+            'Warm' => 'orange',
+            'Cold' => 'blue',
+            default => 'gray',
+        };
+    }
+
 }

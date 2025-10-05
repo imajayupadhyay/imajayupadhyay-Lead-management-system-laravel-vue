@@ -36,15 +36,14 @@ Route::middleware(['auth:counselor', 'counselor'])->prefix('counselor')->name('c
         Route::post('/{lead}/add-note', [CounselorLeadController::class, 'addNote'])->name('add-note');
     });
     
-    // Follow-up Management Routes (Future implementation)
+    // Follow-up Management Routes
     Route::prefix('follow-ups')->name('follow-ups.')->group(function () {
         Route::get('/', [CounselorFollowUpController::class, 'index'])->name('index');
         Route::get('/today', [CounselorFollowUpController::class, 'today'])->name('today');
         Route::get('/overdue', [CounselorFollowUpController::class, 'overdue'])->name('overdue');
-        Route::get('/upcoming', [CounselorFollowUpController::class, 'upcoming'])->name('upcoming');
-        Route::post('/{lead}/schedule', [CounselorFollowUpController::class, 'schedule'])->name('schedule');
-        Route::post('/{lead}/complete', [CounselorFollowUpController::class, 'complete'])->name('complete');
-        Route::post('/{lead}/reschedule', [CounselorFollowUpController::class, 'reschedule'])->name('reschedule');
+        Route::post('/', [CounselorFollowUpController::class, 'store'])->name('store');
+        Route::put('/{followUp}', [CounselorFollowUpController::class, 'update'])->name('update');
+        Route::delete('/{followUp}', [CounselorFollowUpController::class, 'destroy'])->name('destroy');
     });
     
     // Personal Stats Routes (Future implementation)
