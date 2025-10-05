@@ -19,7 +19,7 @@
                 </svg>
               </div>
               <div>
-                <h3 class="text-lg font-semibold text-white">Edit User</h3>
+                <h3 class="text-lg font-semibold text-white">Edit Admin</h3>
                 <p class="text-emerald-100 text-sm">Update {{ user?.name }}'s information</p>
               </div>
             </div>
@@ -96,23 +96,19 @@
                 <p v-if="form.errors.phone" class="mt-1 text-sm text-red-600 font-medium">{{ form.errors.phone }}</p>
               </div>
 
-              <!-- Role -->
+              <!-- Role (Hidden, always admin) -->
               <div>
                 <label for="edit-role" class="block text-sm font-semibold text-gray-700 mb-2">
                   Role <span class="text-red-500">*</span>
                 </label>
-                <select
+                <input
+                  type="text"
                   id="edit-role"
-                  v-model="form.role"
-                  required
-                  class="form-input"
-                  :class="{ 'border-red-500 ring-red-500': form.errors.role }"
-                >
-                  <option value="">Select Role</option>
-                  <option value="admin">Admin</option>
-                  <option value="counselor">Counselor</option>
-                </select>
-                <p v-if="form.errors.role" class="mt-1 text-sm text-red-600 font-medium">{{ form.errors.role }}</p>
+                  value="Admin"
+                  disabled
+                  class="form-input bg-gray-100 text-gray-700 cursor-not-allowed"
+                />
+                <p class="mt-1 text-xs text-gray-500">Users in this section have administrator privileges</p>
               </div>
             </div>
 

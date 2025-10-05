@@ -21,10 +21,8 @@ class UserController extends Controller
     {
         $query = User::query();
 
-        // Filter by role if provided
-        if ($request->has('role') && in_array($request->role, ['admin', 'counselor'])) {
-            $query->where('role', $request->role);
-        }
+        // Only show admin users
+        $query->where('role', 'admin');
 
         // Filter by status if provided
         if ($request->has('status')) {
@@ -80,7 +78,6 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['nullable', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'in:admin,counselor'],
             'is_active' => ['boolean'],
         ]);
 
@@ -93,7 +90,7 @@ class UserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => 'admin', // Always create as admin
             'is_active' => $request->is_active ?? true,
         ]);
 
@@ -130,7 +127,6 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', 'in:admin,counselor'],
             'is_active' => ['boolean'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
@@ -143,7 +139,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'role' => $request->role,
+            'role' => 'admin', // Always keep as admin
             'is_active' => $request->is_active ?? true,
         ];
 

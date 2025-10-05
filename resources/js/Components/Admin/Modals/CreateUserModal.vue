@@ -19,8 +19,8 @@
                 </svg>
               </div>
               <div>
-                <h3 class="text-lg font-semibold text-white">Add New User</h3>
-                <p class="text-blue-100 text-sm">Create a new admin or counselor account</p>
+                <h3 class="text-lg font-semibold text-white">Add New Admin</h3>
+                <p class="text-blue-100 text-sm">Create a new administrator account</p>
               </div>
             </div>
             <button
@@ -96,23 +96,19 @@
                 <p v-if="form.errors.phone" class="mt-1 text-sm text-red-600">{{ form.errors.phone }}</p>
               </div>
 
-              <!-- Role -->
+              <!-- Role (Hidden, always admin) -->
               <div>
                 <label for="create-role" class="block text-sm font-medium text-gray-700 mb-2">
                   Role <span class="text-red-500">*</span>
                 </label>
-                <select
+                <input
+                  type="text"
                   id="create-role"
-                  v-model="form.role"
-                  required
-                  class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  :class="{ 'border-red-300 ring-red-300': form.errors.role }"
-                >
-                  <option value="">Select Role</option>
-                  <option value="admin">Admin</option>
-                  <option value="counselor">Counselor</option>
-                </select>
-                <p v-if="form.errors.role" class="mt-1 text-sm text-red-600">{{ form.errors.role }}</p>
+                  value="Admin"
+                  disabled
+                  class="block w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed"
+                />
+                <p class="mt-1 text-xs text-gray-500">Users created here will have administrator privileges</p>
               </div>
             </div>
           </div>
@@ -334,7 +330,7 @@ const form = useForm({
   name: '',
   email: '',
   phone: '',
-  role: '',
+  role: 'admin',
   password: '',
   password_confirmation: '',
   is_active: true,
