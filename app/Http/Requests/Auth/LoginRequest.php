@@ -41,15 +41,24 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        // Try to authenticate as counselor first
+        if (Auth::guard('counselor')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            RateLimiter::clear($this->throttleKey());
+            return;
         }
 
-        RateLimiter::clear($this->throttleKey());
+        // If counselor authentication fails, try admin/user authentication
+        if (Auth::guard('web')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            RateLimiter::clear($this->throttleKey());
+            return;
+        }
+
+        // If both fail, throw validation exception
+        RateLimiter::hit($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'email' => trans('auth.failed'),
+        ]);
     }
 
     /**

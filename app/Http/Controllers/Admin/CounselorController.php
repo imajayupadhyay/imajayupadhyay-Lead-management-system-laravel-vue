@@ -64,6 +64,7 @@ class CounselorController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:counselors'],
             'phone' => ['nullable', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'is_active' => ['boolean'],
         ]);
 
@@ -75,6 +76,7 @@ class CounselorController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'password' => bcrypt($request->password),
             'is_active' => $request->is_active ?? true,
         ]);
 
@@ -101,6 +103,7 @@ class CounselorController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('counselors')->ignore($counselor->id)],
             'phone' => ['nullable', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'is_active' => ['boolean'],
         ]);
 
@@ -108,12 +111,19 @@ class CounselorController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $counselor->update([
+        $updateData = [
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'is_active' => $request->is_active ?? true,
-        ]);
+        ];
+
+        // Only update password if provided
+        if ($request->filled('password')) {
+            $updateData['password'] = bcrypt($request->password);
+        }
+
+        $counselor->update($updateData);
 
         return redirect()->route('admin.counselors.index')
             ->with('success', "Counselor '{$counselor->name}' updated successfully!");

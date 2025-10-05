@@ -25,22 +25,24 @@ Route::get('/thank-you', [PublicController::class, 'success'])->name('enquiry.su
 
 // Main Dashboard Route with Role-based Redirection
 Route::get('/dashboard', function () {
-    $user = auth()->user();
-    
-    if (!$user) {
-        return redirect()->route('login');
-    }
-    
-    // Redirect based on user role
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    } elseif ($user->role === 'counselor') {
+    // Check if user is authenticated as counselor
+    if (auth()->guard('counselor')->check()) {
         return redirect()->route('counselor.dashboard');
     }
-    
-    // Fallback for unknown roles
-    return redirect()->route('login')->with('error', 'Invalid user role.');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+    // Check if user is authenticated as admin
+    if (auth()->guard('web')->check()) {
+        $user = auth()->guard('web')->user();
+
+        // Redirect based on user role
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+    }
+
+    // Not authenticated or invalid role
+    return redirect()->route('login')->with('error', 'Please login to continue.');
+})->name('dashboard');
 
 // Profile Routes (Common for both admin and counselor)
 Route::middleware('auth')->group(function () {

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'counselor'])->prefix('counselor')->name('counselor.')->group(function () {
+Route::middleware(['auth:counselor', 'counselor'])->prefix('counselor')->name('counselor.')->group(function () {
     
     // Counselor Dashboard
     Route::get('/dashboard', [CounselorDashboardController::class, 'index'])->name('dashboard');

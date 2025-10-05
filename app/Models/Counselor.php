@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Counselor extends Model
+class Counselor extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +19,18 @@ class Counselor extends Model
         'name',
         'email',
         'phone',
+        'password',
         'is_active',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -28,6 +40,8 @@ class Counselor extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
