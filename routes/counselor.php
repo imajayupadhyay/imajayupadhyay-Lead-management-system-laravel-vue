@@ -5,6 +5,7 @@ use App\Http\Controllers\Counselor\LeadController as CounselorLeadController;
 use App\Http\Controllers\Counselor\FollowUpController as CounselorFollowUpController;
 use App\Http\Controllers\Counselor\ProfileController as CounselorProfileController;
 use App\Http\Controllers\Counselor\NotificationController as CounselorNotificationController;
+use App\Http\Controllers\Counselor\TaskController as CounselorTaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +54,18 @@ Route::middleware(['auth:counselor', 'counselor'])->prefix('counselor')->name('c
         Route::post('/{notification}/mark-as-read', [CounselorNotificationController::class, 'markAsRead'])->name('mark-as-read');
         Route::post('/mark-all-as-read', [CounselorNotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
         Route::delete('/{notification}', [CounselorNotificationController::class, 'destroy'])->name('destroy');
+    });
+
+    // Task Management Routes
+    Route::prefix('tasks')->name('tasks.')->group(function () {
+        Route::get('/', [CounselorTaskController::class, 'index'])->name('index');
+        Route::get('/create', [CounselorTaskController::class, 'create'])->name('create');
+        Route::post('/', [CounselorTaskController::class, 'store'])->name('store');
+        Route::get('/{task}', [CounselorTaskController::class, 'show'])->name('show');
+        Route::get('/{task}/edit', [CounselorTaskController::class, 'edit'])->name('edit');
+        Route::put('/{task}', [CounselorTaskController::class, 'update'])->name('update');
+        Route::delete('/{task}', [CounselorTaskController::class, 'destroy'])->name('destroy');
+        Route::post('/{task}/mark-complete', [CounselorTaskController::class, 'markComplete'])->name('mark-complete');
     });
 
     // Personal Stats Routes (Future implementation)
