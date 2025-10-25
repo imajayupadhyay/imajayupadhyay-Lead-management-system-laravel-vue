@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\FacultyController as AdminFacultyController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\RevenueController as AdminRevenueController;
 use App\Http\Controllers\Admin\LeadFunnelController as AdminLeadFunnelController;
+use App\Http\Controllers\Admin\MarketerFunnelController as AdminMarketerFunnelController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MarketerController as AdminMarketerController;
 
@@ -99,5 +100,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Lead Funnel Analytics
     Route::get('/lead-funnel', [AdminLeadFunnelController::class, 'index'])->name('lead-funnel');
+
+    // Marketer Funnel Analytics
+    Route::get('/marketer-funnel', [AdminMarketerFunnelController::class, 'index'])->name('marketer-funnel');
 
 });
