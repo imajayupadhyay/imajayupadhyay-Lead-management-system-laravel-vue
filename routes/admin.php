@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CounselorController as AdminCounselorController;
 use App\Http\Controllers\Admin\FacultyController as AdminFacultyController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\RevenueController as AdminRevenueController;
+use App\Http\Controllers\Admin\LeadFunnelController as AdminLeadFunnelController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MarketerController as AdminMarketerController;
 
@@ -95,5 +96,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/{revenue}', [AdminRevenueController::class, 'destroy'])->name('destroy');
         Route::post('/{revenue}/verify', [AdminRevenueController::class, 'verify'])->name('verify');
     });
+
+    // Lead Funnel Analytics
+    Route::get('/lead-funnel', [AdminLeadFunnelController::class, 'index'])->name('lead-funnel');
 
 });
