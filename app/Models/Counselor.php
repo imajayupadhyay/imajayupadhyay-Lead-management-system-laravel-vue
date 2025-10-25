@@ -55,6 +55,14 @@ class Counselor extends Authenticatable
     }
 
     /**
+     * Get the revenues associated with this counselor.
+     */
+    public function revenues()
+    {
+        return $this->hasMany(Revenue::class, 'counselor_id');
+    }
+
+    /**
      * Scope to get only active counselors.
      */
     public function scopeActive($query)

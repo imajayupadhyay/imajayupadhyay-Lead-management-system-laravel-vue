@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\CounselorController as AdminCounselorController;
 use App\Http\Controllers\Admin\FacultyController as AdminFacultyController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Admin\RevenueController as AdminRevenueController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MarketerController as AdminMarketerController;
 
@@ -80,5 +81,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/{lead}', [AdminLeadController::class, 'destroy'])->name('destroy');
         Route::post('/bulk-action', [AdminLeadController::class, 'bulkAction'])->name('bulk-action');
     });
-    
+
+    // Revenue Management Routes
+    Route::prefix('revenues')->name('revenues.')->group(function () {
+        Route::get('/', [AdminRevenueController::class, 'index'])->name('index');
+        Route::get('/create', [AdminRevenueController::class, 'create'])->name('create');
+        Route::post('/', [AdminRevenueController::class, 'store'])->name('store');
+        Route::get('/report/counselor', [AdminRevenueController::class, 'reportByCounselor'])->name('report');
+        Route::get('/export', [AdminRevenueController::class, 'export'])->name('export');
+        Route::get('/{revenue}', [AdminRevenueController::class, 'show'])->name('show');
+        Route::get('/{revenue}/edit', [AdminRevenueController::class, 'edit'])->name('edit');
+        Route::put('/{revenue}', [AdminRevenueController::class, 'update'])->name('update');
+        Route::delete('/{revenue}', [AdminRevenueController::class, 'destroy'])->name('destroy');
+        Route::post('/{revenue}/verify', [AdminRevenueController::class, 'verify'])->name('verify');
+    });
+
 });
