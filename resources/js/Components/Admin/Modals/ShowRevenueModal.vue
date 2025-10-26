@@ -99,8 +99,8 @@
                 </div>
               </div>
 
-              <!-- Counselor and Lead Details -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <!-- Counselor, Marketer and Lead Details -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                 <!-- Counselor -->
                 <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-200">
                   <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
@@ -122,6 +122,36 @@
                       <dt class="text-xs font-medium text-gray-500 uppercase">Phone</dt>
                       <dd class="text-sm text-gray-900 mt-1">{{ revenue.counselor?.phone }}</dd>
                     </div>
+                  </div>
+                </div>
+
+                <!-- Marketer -->
+                <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-6 border border-indigo-200">
+                  <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Marketer
+                  </h4>
+                  <div v-if="revenue.marketer" class="space-y-3">
+                    <div>
+                      <dt class="text-xs font-medium text-gray-500 uppercase">Name</dt>
+                      <dd class="text-base font-semibold text-gray-900 mt-1">{{ revenue.marketer.name }}</dd>
+                    </div>
+                    <div v-if="revenue.marketer.email">
+                      <dt class="text-xs font-medium text-gray-500 uppercase">Email</dt>
+                      <dd class="text-sm text-gray-900 mt-1">{{ revenue.marketer.email }}</dd>
+                    </div>
+                    <div v-if="revenue.marketer.phone">
+                      <dt class="text-xs font-medium text-gray-500 uppercase">Phone</dt>
+                      <dd class="text-sm text-gray-900 mt-1">{{ revenue.marketer.phone }}</dd>
+                    </div>
+                  </div>
+                  <div v-else class="text-center text-gray-400 py-4">
+                    <svg class="mx-auto h-10 w-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <p class="mt-2 text-sm">No marketer assigned</p>
                   </div>
                 </div>
 
