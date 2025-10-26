@@ -6,6 +6,7 @@ use App\Http\Controllers\Counselor\FollowUpController as CounselorFollowUpContro
 use App\Http\Controllers\Counselor\ProfileController as CounselorProfileController;
 use App\Http\Controllers\Counselor\NotificationController as CounselorNotificationController;
 use App\Http\Controllers\Counselor\TaskController as CounselorTaskController;
+use App\Http\Controllers\Counselor\RevenueController as CounselorRevenueController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +67,12 @@ Route::middleware(['auth:counselor', 'counselor'])->prefix('counselor')->name('c
         Route::put('/{task}', [CounselorTaskController::class, 'update'])->name('update');
         Route::delete('/{task}', [CounselorTaskController::class, 'destroy'])->name('destroy');
         Route::post('/{task}/mark-complete', [CounselorTaskController::class, 'markComplete'])->name('mark-complete');
+    });
+
+    // Revenue Management Routes
+    Route::prefix('revenues')->name('revenues.')->group(function () {
+        Route::get('/', [CounselorRevenueController::class, 'index'])->name('index');
+        Route::get('/export', [CounselorRevenueController::class, 'export'])->name('export');
     });
 
     // Personal Stats Routes (Future implementation)

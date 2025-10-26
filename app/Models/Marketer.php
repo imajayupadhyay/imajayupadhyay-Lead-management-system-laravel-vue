@@ -42,6 +42,14 @@ class Marketer extends Model
     }
 
     /**
+     * Get the revenues associated with this marketer.
+     */
+    public function revenues()
+    {
+        return $this->hasMany(Revenue::class, 'marketer_id');
+    }
+
+    /**
      * Scope to get only active marketers.
      */
     public function scopeActive($query)
