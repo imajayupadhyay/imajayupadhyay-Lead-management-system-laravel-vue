@@ -16,6 +16,7 @@ class Revenue extends Model
      */
     protected $fillable = [
         'counselor_id',
+        'marketer_id',
         'lead_id',
         'date',
         'amount',
@@ -64,6 +65,14 @@ class Revenue extends Model
     public function lead()
     {
         return $this->belongsTo(Lead::class, 'lead_id');
+    }
+
+    /**
+     * Get the marketer associated with this revenue.
+     */
+    public function marketer()
+    {
+        return $this->belongsTo(Marketer::class, 'marketer_id');
     }
 
     /**

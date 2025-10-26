@@ -65,9 +65,15 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ml-4">
+                  <div class="ml-4 flex-1">
                     <dt class="text-sm font-medium text-gray-500">Total Revenue</dt>
                     <dd class="text-2xl font-bold text-gray-900">₹{{ formatNumber(stats.total_revenue) }}</dd>
+                    <span v-if="hasActiveFilters" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                      </svg>
+                      Filtered
+                    </span>
                   </div>
                 </div>
               </div>
@@ -83,9 +89,15 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ml-4">
+                  <div class="ml-4 flex-1">
                     <dt class="text-sm font-medium text-gray-500">Net Revenue</dt>
                     <dd class="text-2xl font-bold text-gray-900">₹{{ formatNumber(stats.net_revenue) }}</dd>
+                    <span v-if="hasActiveFilters" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                      </svg>
+                      Filtered
+                    </span>
                   </div>
                 </div>
               </div>
@@ -101,9 +113,15 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ml-4">
+                  <div class="ml-4 flex-1">
                     <dt class="text-sm font-medium text-gray-500">Total Transactions</dt>
                     <dd class="text-2xl font-bold text-gray-900">{{ stats.total_transactions }}</dd>
+                    <span v-if="hasActiveFilters" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                      </svg>
+                      Filtered
+                    </span>
                   </div>
                 </div>
               </div>
@@ -119,9 +137,15 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="ml-4">
+                  <div class="ml-4 flex-1">
                     <dt class="text-sm font-medium text-gray-500">Pending</dt>
                     <dd class="text-2xl font-bold text-gray-900">{{ stats.pending_count }}</dd>
+                    <span v-if="hasActiveFilters" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                      </svg>
+                      Filtered
+                    </span>
                   </div>
                 </div>
               </div>
@@ -159,9 +183,9 @@
             </div>
 
             <!-- Filter Content -->
-            <div class="p-6 space-y-6">
-              <!-- Search Row -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="p-6">
+              <!-- First Row: Search, Counselor, Marketer -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                 <!-- Search -->
                 <div class="lg:col-span-2">
                   <label for="search" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
@@ -176,7 +200,7 @@
                       v-model="searchQuery"
                       type="text"
                       placeholder="Search by receipt, transaction ID, lead name..."
-                      class="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-200 bg-white hover:border-gray-300"
+                      class="w-full pl-11 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-200 bg-white hover:border-gray-300"
                       @input="debounceSearch"
                     >
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -185,7 +209,7 @@
                       </svg>
                     </div>
                     <div v-if="searchQuery" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                      <button @click="searchQuery = ''; applyFilters()" class="text-gray-400 hover:text-gray-600">
+                      <button @click="searchQuery = ''; applyFilters()" class="text-gray-400 hover:text-gray-600 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -222,6 +246,37 @@
                   </div>
                 </div>
 
+                <!-- Marketer Filter -->
+                <div>
+                  <label for="marketer" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Marketer
+                  </label>
+                  <div class="relative">
+                    <select
+                      id="marketer"
+                      v-model="marketerFilter"
+                      class="w-full pl-4 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-200 bg-white hover:border-gray-300 appearance-none cursor-pointer"
+                      @change="applyFilters"
+                    >
+                      <option value="">All Marketers</option>
+                      <option v-for="marketer in marketers" :key="marketer.id" :value="marketer.id">
+                        {{ marketer.name }}
+                      </option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Second Row: Status, Payment Mode, Date From, Date To -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Status Filter -->
                 <div>
                   <label for="status" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
@@ -242,74 +297,6 @@
                       <option value="Confirmed">Confirmed</option>
                       <option value="Cancelled">Cancelled</option>
                       <option value="Refunded">Refunded</option>
-                    </select>
-                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Additional Filters Row -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Date From -->
-                <div>
-                  <label for="date_from" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Date From
-                  </label>
-                  <input
-                    id="date_from"
-                    v-model="dateFromFilter"
-                    type="date"
-                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-white hover:border-gray-300"
-                    @change="applyFilters"
-                  >
-                </div>
-
-                <!-- Date To -->
-                <div>
-                  <label for="date_to" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Date To
-                  </label>
-                  <input
-                    id="date_to"
-                    v-model="dateToFilter"
-                    type="date"
-                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-white hover:border-gray-300"
-                    @change="applyFilters"
-                  >
-                </div>
-
-                <!-- Payment Type Filter -->
-                <div>
-                  <label for="payment_type" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Payment Type
-                  </label>
-                  <div class="relative">
-                    <select
-                      id="payment_type"
-                      v-model="paymentTypeFilter"
-                      class="w-full pl-4 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-200 bg-white hover:border-gray-300 appearance-none cursor-pointer"
-                      @change="applyFilters"
-                    >
-                      <option value="">All Types</option>
-                      <option value="Registration Fee">Registration Fee</option>
-                      <option value="Course Fee">Course Fee</option>
-                      <option value="Installment">Installment</option>
-                      <option value="Material Fee">Material Fee</option>
-                      <option value="Exam Fee">Exam Fee</option>
-                      <option value="Other">Other</option>
                     </select>
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,6 +336,40 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- Date From -->
+                <div>
+                  <label for="date_from" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Date From
+                  </label>
+                  <input
+                    id="date_from"
+                    v-model="dateFromFilter"
+                    type="date"
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-white hover:border-gray-300 cursor-pointer"
+                    @change="applyFilters"
+                  >
+                </div>
+
+                <!-- Date To -->
+                <div>
+                  <label for="date_to" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Date To
+                  </label>
+                  <input
+                    id="date_to"
+                    v-model="dateToFilter"
+                    type="date"
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-white hover:border-gray-300 cursor-pointer"
+                    @change="applyFilters"
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -364,6 +385,9 @@
                     </th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Counselor
+                    </th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                      Marketer
                     </th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Lead
@@ -408,6 +432,10 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="text-sm font-medium text-gray-900">{{ revenue.counselor?.name }}</div>
                       <div class="text-xs text-gray-500">{{ revenue.counselor?.email }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div v-if="revenue.marketer" class="text-sm font-medium text-gray-900">{{ revenue.marketer.name }}</div>
+                      <div v-else class="text-sm text-gray-400 italic">No Marketer</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div v-if="revenue.lead" class="text-sm font-medium text-gray-900">{{ revenue.lead.student_name }}</div>
@@ -551,6 +579,10 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
+  marketers: {
+    type: Array,
+    default: () => []
+  },
   filters: {
     type: Object,
     default: () => ({})
@@ -560,8 +592,8 @@ const props = defineProps({
 const isMobileMenuOpen = ref(false);
 const searchQuery = ref(props.filters.search || '');
 const counselorFilter = ref(props.filters.counselor_id || '');
+const marketerFilter = ref(props.filters.marketer_id || '');
 const statusFilter = ref(props.filters.status || '');
-const paymentTypeFilter = ref(props.filters.payment_type || '');
 const paymentModeFilter = ref(props.filters.payment_mode || '');
 const dateFromFilter = ref(props.filters.date_from || '');
 const dateToFilter = ref(props.filters.date_to || '');
@@ -581,16 +613,16 @@ const closeMobileMenu = () => {
 };
 
 const hasActiveFilters = computed(() => {
-  return searchQuery.value || counselorFilter.value || statusFilter.value ||
-         paymentTypeFilter.value || paymentModeFilter.value || dateFromFilter.value || dateToFilter.value;
+  return searchQuery.value || counselorFilter.value || marketerFilter.value || statusFilter.value ||
+         paymentModeFilter.value || dateFromFilter.value || dateToFilter.value;
 });
 
 const activeFiltersCount = computed(() => {
   let count = 0;
   if (searchQuery.value) count++;
   if (counselorFilter.value) count++;
+  if (marketerFilter.value) count++;
   if (statusFilter.value) count++;
-  if (paymentTypeFilter.value) count++;
   if (paymentModeFilter.value) count++;
   if (dateFromFilter.value) count++;
   if (dateToFilter.value) count++;
@@ -608,8 +640,8 @@ const applyFilters = () => {
   router.get(route('admin.revenues.index'), {
     search: searchQuery.value,
     counselor_id: counselorFilter.value,
+    marketer_id: marketerFilter.value,
     status: statusFilter.value,
-    payment_type: paymentTypeFilter.value,
     payment_mode: paymentModeFilter.value,
     date_from: dateFromFilter.value,
     date_to: dateToFilter.value,
@@ -622,8 +654,8 @@ const applyFilters = () => {
 const clearFilters = () => {
   searchQuery.value = '';
   counselorFilter.value = '';
+  marketerFilter.value = '';
   statusFilter.value = '';
-  paymentTypeFilter.value = '';
   paymentModeFilter.value = '';
   dateFromFilter.value = '';
   dateToFilter.value = '';

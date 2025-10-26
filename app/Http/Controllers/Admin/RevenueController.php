@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Revenue;
 use App\Models\Counselor;
+use App\Models\Marketer;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -21,21 +22,21 @@ class RevenueController extends Controller
      */
     public function index(Request $request): Response
     {
-        $query = Revenue::with(['counselor', 'lead', 'collectedBy', 'verifiedBy']);
+        $query = Revenue::with(['counselor', 'marketer', 'lead', 'collectedBy', 'verifiedBy']);
 
         // Filter by counselor
         if ($request->has('counselor_id') && !empty($request->counselor_id)) {
             $query->where('counselor_id', $request->counselor_id);
         }
 
+        // Filter by marketer
+        if ($request->has('marketer_id') && !empty($request->marketer_id)) {
+            $query->where('marketer_id', $request->marketer_id);
+        }
+
         // Filter by status
         if ($request->has('status') && !empty($request->status)) {
             $query->where('status', $request->status);
-        }
-
-        // Filter by payment type
-        if ($request->has('payment_type') && !empty($request->payment_type)) {
-            $query->where('payment_type', $request->payment_type);
         }
 
         // Filter by payment mode
@@ -78,14 +79,20 @@ class RevenueController extends Controller
             ->orderBy('name')
             ->get(['id', 'name']);
 
+        // Get marketers for filter dropdown
+        $marketers = Marketer::active()
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
         return Inertia::render('Admin/Revenues/Index', [
             'revenues' => $revenues,
             'stats' => $stats,
             'counselors' => $counselors,
+            'marketers' => $marketers,
             'filters' => $request->only([
                 'counselor_id',
+                'marketer_id',
                 'status',
-                'payment_type',
                 'payment_mode',
                 'date_from',
                 'date_to',
@@ -103,6 +110,10 @@ class RevenueController extends Controller
             ->orderBy('name')
             ->get(['id', 'name', 'email', 'phone']);
 
+        $marketers = Marketer::active()
+            ->orderBy('name')
+            ->get(['id', 'name', 'email', 'phone']);
+
         $leads = Lead::with('counselor')
             ->orderBy('student_name')
             ->get(['id', 'student_name', 'mobile_number', 'counselor_id']);
@@ -111,6 +122,7 @@ class RevenueController extends Controller
 
         return Inertia::render('Admin/Revenues/Create', [
             'counselors' => $counselors,
+            'marketers' => $marketers,
             'leads' => $leads,
             'receiptNumber' => $receiptNumber,
         ]);
@@ -123,6 +135,7 @@ class RevenueController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'counselor_id' => ['required', 'integer', 'exists:counselors,id'],
+            'marketer_id' => ['nullable', 'integer', 'exists:marketers,id'],
             'lead_id' => ['nullable', 'integer', 'exists:leads,id'],
             'date' => ['required', 'date'],
             'amount' => ['required', 'numeric', 'min:0'],
@@ -147,6 +160,7 @@ class RevenueController extends Controller
 
         $revenue = Revenue::create([
             'counselor_id' => $request->counselor_id,
+            'marketer_id' => $request->marketer_id,
             'lead_id' => $request->lead_id,
             'date' => $request->date,
             'amount' => $request->amount,
@@ -172,7 +186,7 @@ class RevenueController extends Controller
      */
     public function show(Revenue $revenue): Response
     {
-        $revenue->load(['counselor', 'lead', 'collectedBy', 'verifiedBy']);
+        $revenue->load(['counselor', 'marketer', 'lead', 'collectedBy', 'verifiedBy']);
 
         return Inertia::render('Admin/Revenues/Show', [
             'revenue' => $revenue,
@@ -188,9 +202,13 @@ class RevenueController extends Controller
             return back()->with('error', 'This revenue record cannot be edited.');
         }
 
-        $revenue->load(['counselor', 'lead']);
+        $revenue->load(['counselor', 'marketer', 'lead']);
 
         $counselors = Counselor::active()
+            ->orderBy('name')
+            ->get(['id', 'name', 'email', 'phone']);
+
+        $marketers = Marketer::active()
             ->orderBy('name')
             ->get(['id', 'name', 'email', 'phone']);
 
@@ -201,6 +219,7 @@ class RevenueController extends Controller
         return Inertia::render('Admin/Revenues/Edit', [
             'revenue' => $revenue,
             'counselors' => $counselors,
+            'marketers' => $marketers,
             'leads' => $leads,
         ]);
     }
@@ -216,6 +235,7 @@ class RevenueController extends Controller
 
         $validator = Validator::make($request->all(), [
             'counselor_id' => ['required', 'integer', 'exists:counselors,id'],
+            'marketer_id' => ['nullable', 'integer', 'exists:marketers,id'],
             'lead_id' => ['nullable', 'integer', 'exists:leads,id'],
             'date' => ['required', 'date'],
             'amount' => ['required', 'numeric', 'min:0'],
@@ -237,6 +257,7 @@ class RevenueController extends Controller
 
         $revenue->update([
             'counselor_id' => $request->counselor_id,
+            'marketer_id' => $request->marketer_id,
             'lead_id' => $request->lead_id,
             'date' => $request->date,
             'amount' => $request->amount,
@@ -339,11 +360,38 @@ class RevenueController extends Controller
         if ($request->has('counselor_id') && !empty($request->counselor_id)) {
             $query->where('counselor_id', $request->counselor_id);
         }
+
+        if ($request->has('marketer_id') && !empty($request->marketer_id)) {
+            $query->where('marketer_id', $request->marketer_id);
+        }
+
+        if ($request->has('status') && !empty($request->status)) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->has('payment_mode') && !empty($request->payment_mode)) {
+            $query->where('payment_mode', $request->payment_mode);
+        }
+
         if ($request->has('date_from') && !empty($request->date_from)) {
             $query->where('date', '>=', $request->date_from);
         }
+
         if ($request->has('date_to') && !empty($request->date_to)) {
             $query->where('date', '<=', $request->date_to);
+        }
+
+        // Search filter
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('receipt_number', 'like', "%{$searchTerm}%")
+                  ->orWhere('transaction_id', 'like', "%{$searchTerm}%")
+                  ->orWhereHas('lead', function ($leadQuery) use ($searchTerm) {
+                      $leadQuery->where('student_name', 'like', "%{$searchTerm}%")
+                                ->orWhere('mobile_number', 'like', "%{$searchTerm}%");
+                  });
+            });
         }
 
         return [
@@ -366,7 +414,7 @@ class RevenueController extends Controller
      */
     public function export(Request $request)
     {
-        $query = Revenue::with(['counselor', 'lead']);
+        $query = Revenue::with(['counselor', 'marketer', 'lead']);
 
         // Apply filters
         if ($request->has('counselor_id') && !empty($request->counselor_id)) {
@@ -395,6 +443,7 @@ class RevenueController extends Controller
                 'Receipt Number',
                 'Date',
                 'Counselor',
+                'Marketer',
                 'Lead Name',
                 'Payment Type',
                 'Amount',
@@ -411,6 +460,7 @@ class RevenueController extends Controller
                     $revenue->receipt_number,
                     $revenue->date->format('Y-m-d'),
                     $revenue->counselor->name ?? 'N/A',
+                    $revenue->marketer->name ?? 'N/A',
                     $revenue->lead->student_name ?? 'N/A',
                     $revenue->payment_type,
                     $revenue->amount,

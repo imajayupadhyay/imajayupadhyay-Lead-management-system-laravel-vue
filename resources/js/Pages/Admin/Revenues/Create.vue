@@ -100,18 +100,18 @@
               </div>
             </div>
 
-            <!-- Counselor & Lead Card -->
+            <!-- Counselor, Marketer & Lead Card -->
             <div class="bg-white shadow-lg rounded-2xl border border-gray-100 overflow-hidden">
               <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
                 <h2 class="text-lg font-bold text-white flex items-center">
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  Counselor & Lead Information
+                  Counselor, Marketer & Lead Information
                 </h2>
               </div>
               <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label for="counselor_id" class="block text-sm font-semibold text-gray-700 mb-2">
                       Counselor <span class="text-red-500">*</span>
@@ -139,6 +139,33 @@
                     <p v-if="form.errors.counselor_id" class="mt-2 text-sm text-red-600">{{ form.errors.counselor_id }}</p>
                   </div>
 
+                  <div>
+                    <label for="marketer_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                      Marketer <span class="text-gray-400 text-xs">(Optional)</span>
+                    </label>
+                    <div class="relative">
+                      <select
+                        id="marketer_id"
+                        v-model="form.marketer_id"
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all duration-200 bg-white hover:border-gray-300 appearance-none font-medium cursor-pointer"
+                        :class="{ 'border-red-500 focus:border-red-500 focus:ring-red-100': form.errors.marketer_id }"
+                      >
+                        <option value="">Select Marketer</option>
+                        <option v-for="marketer in marketers" :key="marketer.id" :value="marketer.id">
+                          {{ marketer.name }}
+                        </option>
+                      </select>
+                      <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p v-if="form.errors.marketer_id" class="mt-2 text-sm text-red-600">{{ form.errors.marketer_id }}</p>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
                   <div>
                     <label for="lead_id" class="block text-sm font-semibold text-gray-700 mb-2">
                       Lead <span class="text-gray-400 text-xs">(Optional)</span>
@@ -493,6 +520,7 @@ import AdminTopbar from '@/Components/Admin/AdminTopbar.vue';
 
 const props = defineProps({
   counselors: Array,
+  marketers: Array,
   leads: Array,
   receiptNumber: String,
 });
@@ -502,6 +530,7 @@ const filteredLeads = ref([]);
 
 const form = useForm({
   counselor_id: '',
+  marketer_id: '',
   lead_id: '',
   date: new Date().toISOString().split('T')[0],
   amount: '',
